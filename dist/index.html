@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Gaming Console</title>
+        <script defer src="./bundle.js"></script>
+        <style>
+           body{
+            background-image: linear-gradient(to right, #f3ced2, #cdb8cc);
+           }
+           h1{
+                padding-top: 80px;
+                text-align: center;
+                font:'Franklin Gothic Medium';
+                font-size: 40px;
+            }
+            h2{
+                text-align: center;
+                padding-bottom: 15px;
+            }
+            p{
+                text-align: center;
+                padding-top: 50px;
+            }
+            button{
+                background-color: #cdb8cc;
+                border-radius: 10px;
+                width: 100px;
+                height: 33px;
+            }
+            button:hover{
+                background-color: #f3ced2;
+            }
+            .container{
+                background-image: url('images/background.jpg');
+                width: 350px;
+                height:500px;
+                margin: auto;
+                border-radius: 30px;
+                box-shadow: 0 6px 10px 0;
+            }
+            .input{
+                text-align: center;
+            }
+            .email{
+                padding-bottom: 10px;
+            }
+            .password{
+                padding-bottom: 25px;
+            }
+            .form-input{
+                border-radius: 10px;
+                height: 25px;
+            }
+        </style>
+    </head>
+    <body>
+        
+        <form name="registration_form" id="registration_form" method="post" action="login.html" enctype="multipart/form-data">
+            <div class="container">
+                <h1>WELCOME!!!</h1>
+                <h2>Register</h2>
+                <div class="input email">
+                    <label style="margin-left: -133px">Email</label><br>
+                    <input type="text" name="email" id="email" class="form-input" placeholder="Email" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" title="Invalid email address">
+                </div>
+                <div class="input password">
+                    <label style="margin-left: -108px">Password</label><br>
+                    <input type="password" id="password" name="password" class="form-input" placeholder="Password" required="">
+                </div>
+                <div class="input">
+                    <button type="button" id="register" name="register">Register</button>
+                </div>
+                <p>Already have an account? <a href="login.html">Log in</a></p>
+                
+
+            </div>
+        </form>
+    </body>
+</html>
+
+        <script type="module">
+
+            // Import the functions you need from the SDKs you need
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
+            import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-analytics.js";
+            import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js";
+            // TODO: Add SDKs for Firebase products that you want to use
+            // https://firebase.google.com/docs/web/setup#available-libraries
+            
+            // Your web app's Firebase configuration
+            // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+            const firebaseConfig = {
+              apiKey: "AIzaSyAx4pQLKwmGQz4v1tbHCY5RRuKRGTDrgjk",
+              authDomain: "case-study-d6a32.firebaseapp.com",
+              projectId: "case-study-d6a32",
+              storageBucket: "case-study-d6a32.appspot.com",
+              messagingSenderId: "910364984531",
+              appId: "1:910364984531:web:c4055963432ddcf45d4026",
+              measurementId: "G-PDW0GB00WY"
+            };
+            
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            const analytics = getAnalytics(app);
+            const auth = getAuth();
+            console.log(app);
+            
+            //----- New Registration code start	  
+            document.getElementById("register").addEventListener("click", function() {
+              var email =  document.getElementById("email").value;
+              var password = document.getElementById("password").value;
+              
+              //For new registration
+              createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
+                // Signed in 
+                const user = userCredential.user;
+                console.log(user);
+                alert("Registration successful!!");
+                window.location.href = "login.html";
+                // ...
+              })
+              .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // ..
+                console.log(errorMessage);
+                alert(error);
+              });		  		  
+            });
+        </script>

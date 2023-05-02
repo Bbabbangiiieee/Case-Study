@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ProFile</title>
+        <script defer src="./bundle.js"></script>
+        <script src="https://code.jscharting.com/latest/jscharting.js"></script>
+    </head>
+    <body>
+                <div class="contact__container bd-grid">
+                    <form action="" class="contact__form">
+                        <input type="text" id="name" placeholder="Name" class="contact__input">
+                        <input type="text" id="type" placeholder="Type" class="contact__input">
+                        <input type="text" id="company" placeholder="Company" class="contact__input">
+                        <input type="text" id="year" placeholder="Year" class="contact__input">
+                        <input type="text" id="sold" placeholder="sold" class="contact__input">
+                     </form>
+                    
+                        <center>
+                          <button type="submit" class="save contact__button button">Save</button>
+                        <button class="get-data contact__button button">Get Data</button>
+                    </center>
+                
+                    
+                </div>
+
+                <div class="contact__container bd-grid">
+                  <form action="" class="contact__form" id="edit-form">
+                      <input type="text" id="edit_name" placeholder="Name" class="contact__input">
+                      <input type="text" id="edit_type" placeholder="Type" class="contact__input">
+                      <input type="text" id="edit_company" placeholder="Company" class="contact__input">
+                      <input type="text" id="edit_year" placeholder="Year" class="contact__input">
+                      <input type="text" id="edit_sold" placeholder="sold" class="contact__input">
+                   </form>
+                  
+                      <center><button type="submit" class="update contact__button button">Update</button>
+                  </center>
+              
+                  
+              </div>
+
+                <div>
+                    <table id="dataResults">
+                        <thead>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Company</th>
+                            <th>Year</th>
+                            <th>Sold</th>
+                            <th>Actions</th>
+                        </thead>
+                        <tbody id="tbody1">
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="chartDiv" style="max-width: 500px; height:300px;"></div>
+
+    </body>
+</html>
