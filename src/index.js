@@ -32,6 +32,7 @@ const analytics = getAnalytics(app);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
+//adding data in the database
 const saveBtn = document.querySelector(".save");
 saveBtn.addEventListener("click", async () => {
   const gamingCollectionRef = collection(db, "gamingConsoles");
@@ -159,27 +160,27 @@ getDataBtn.addEventListener("click", async () => {
       });
 
       getDocs(collection(db, "gamingConsoles")).then(docSnap => {
-        let gamingConsolesData = [];
+        let gamingConsolesData= [];
       
         docSnap.forEach((doc)=> {
       
           const data = doc.data();
-          const sold = data.sold;
-          const year = data.year;
+          const company = data.company;
+          const sold = data.unitsSold;
       
-          gamingConsolesData.push({ x: sold, y: year });
+          gamingConsolesData.push({ x: company, y: sold });
           console.log("New Document data:", 'blog');
       
         });
       
         // Create the chart using the retrieved data
-        var chart = new JSC.Chart("chartDiv", {
+        var chart = new JSC.Chart("pie", {
           debug: true, // Set debug option to true to view full error messages
-      
-          type: "column",
+
+          type: "pie",
           series: [{
-            name: "Companies",
-            points: gamingConsole
+            
+            points: gamingConsolesData
           }
         ]
         });
@@ -187,3 +188,35 @@ getDataBtn.addEventListener("click", async () => {
       })  .catch(function(error) {
         console.error("Error retrieving data from Firestore: ", error);
         });
+
+        getDocs(collection(db, "gamingConsoles")).then(docSnap => {
+          let gamingConsolesData= [];
+        
+          docSnap.forEach((doc)=> {
+        
+            const data = doc.data();
+            const company = data.company;
+            const sold = data.unitsSold;
+        
+            gamingConsolesData.push({ x: company, y: sold });
+            console.log("New Document data:", 'blog');
+        
+          });
+        
+          // Create the chart using the retrieved data
+          var chart = new JSC.Chart("chartDiv", {
+            debug: true, // Set debug option to true to view full error messages
+  
+            type: "column",
+            series: [{
+              
+              points: gamingConsolesData
+            }
+          ]
+          });
+        
+        })  .catch(function(error) {
+          console.error("Error retrieving data from Firestore: ", error);
+          });
+
+       
