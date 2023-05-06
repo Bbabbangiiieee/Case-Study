@@ -159,64 +159,128 @@ getDataBtn.addEventListener("click", async () => {
         }
       });
 
+      //line graph for the number of consoles released in a year
       getDocs(collection(db, "gamingConsoles")).then(docSnap => {
-        let gamingConsolesData= [];
+        let gamingConsolesYear = {};
       
-        docSnap.forEach((doc)=> {
-      
+        docSnap.forEach((doc) => {
           const data = doc.data();
-          const company = data.company;
-          const sold = data.unitsSold;
+          const year = data.yearReleased;
       
-          gamingConsolesData.push({ x: company, y: sold });
-          console.log("New Document data:", 'blog');
-      
+          if (year in gamingConsolesYear) {
+            gamingConsolesYear[year] += 1;
+          } else {
+            gamingConsolesYear[year] = 1;
+          }
         });
+      
+        const gamingConsolesData = [];
+      
+        for (const year in gamingConsolesYear) {
+          if (gamingConsolesYear.hasOwnProperty(year)) {
+            const count = gamingConsolesYear[year];
+            if (count !== undefined) {
+              gamingConsolesData.push({ x: year, y: count });
+              console.log(gamingConsolesData);
+
+            }
+          }
+        }
+      
+        // Create the chart using the retrieved data
+        var chart = new JSC.Chart("line", {
+          debug: true, // Set debug option to true to view full error messages
+          type: "line",
+          series: [{
+            points: gamingConsolesData
+          }]
+        });
+      })
+      .catch(function(error) {
+        console.error("Error retrieving data from Firestore: ", error);
+      });
+
+      //pie graph for the count of each console type
+      getDocs(collection(db, "gamingConsoles")).then(docSnap => {
+        let gamingConsolesType = {};
+      
+        docSnap.forEach((doc) => {
+          const data = doc.data();
+          const type = data.consoleType;
+      
+          if (type in gamingConsolesType) {
+            gamingConsolesType[type] += 1;
+          } else {
+            gamingConsolesType[type] = 1;
+          }
+        });
+      
+        const gamingConsolesData = [];
+      
+        for (const type in gamingConsolesType) {
+          if (gamingConsolesType.hasOwnProperty(type)) {
+            const count = gamingConsolesType[type];
+            if (count !== undefined) {
+              gamingConsolesData.push({ x: type, y: count });
+              console.log(gamingConsolesData);
+
+            }
+          }
+        }
       
         // Create the chart using the retrieved data
         var chart = new JSC.Chart("pie", {
           debug: true, // Set debug option to true to view full error messages
-
           type: "pie",
           series: [{
-            
             points: gamingConsolesData
-          }
-        ]
+          }]
         });
-      
-      })  .catch(function(error) {
+      })
+      .catch(function(error) {
         console.error("Error retrieving data from Firestore: ", error);
-        });
-
-        getDocs(collection(db, "gamingConsoles")).then(docSnap => {
-          let gamingConsolesData= [];
+      });
+      
+      
         
-          docSnap.forEach((doc)=> {
+        //graph for units sold per company
+        getDocs(collection(db, "gamingConsoles")).then((docSnap) => {
+          const companyUnitsSold = {};
         
+          docSnap.forEach((doc) => {
             const data = doc.data();
             const company = data.company;
-            const sold = data.unitsSold;
+            const sold = parseInt(data.unitsSold, 10); // Parse unitsSold as integer
         
-            gamingConsolesData.push({ x: company, y: sold });
-            console.log("New Document data:", 'blog');
-        
+            if (company in companyUnitsSold) {
+              companyUnitsSold[company] += sold;
+            } else {
+              companyUnitsSold[company] = sold;
+            }
           });
+        
+          const gamingConsolesData = [];
+        
+          for (const company in companyUnitsSold) {
+            gamingConsolesData.push({ x: company, y: companyUnitsSold[company] });
+          }
         
           // Create the chart using the retrieved data
           var chart = new JSC.Chart("chartDiv", {
             debug: true, // Set debug option to true to view full error messages
-  
             type: "column",
-            series: [{
-              
-              points: gamingConsolesData
-            }
-          ]
+            series: [
+              {
+                points: gamingConsolesData,
+              },
+            ],
           });
-        
-        })  .catch(function(error) {
+        }).catch(function (error) {
           console.error("Error retrieving data from Firestore: ", error);
-          });
+        });
+        
+        
+      
+        
 
        
