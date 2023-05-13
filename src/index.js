@@ -44,7 +44,7 @@ saveBtn.addEventListener("click", async () => {
       yearReleased: document.getElementById("year").value,
       unitsSold: document.getElementById("sold").value
     });
-    alert("Entry Added");
+    location.reload();
     console.log("Data Added!");
     getDataBtn.click();
   } catch (error) {
@@ -55,20 +55,18 @@ saveBtn.addEventListener("click", async () => {
 
 
 // Viewing data stored in the database for managing consoles
-const getDataBtn = document.querySelector(".get-data");
-getDataBtn.addEventListener("click", async () => {
-  const q = collection(db, "gamingConsoles");
-  const gamingConsoles = await getDocs(q);
-
-  // Get a reference to the table body
-  const tableBody = document.getElementById("tbody1");
+const tableBody = document.getElementById("tbody1");
+//const getDataBtn = document.querySelector(".get-data");
+async function fetchDataAndDisplay() {
+  const querySnapshot = await getDocs(collection(db, "gamingConsoles"));
 
   // Clear any existing data from the table
   tableBody.innerHTML = "";
 
   // Loop through the gamingConsoles and add each one to the table
-  gamingConsoles.forEach((doc) => {
+  querySnapshot.forEach((doc) => {
     const data = doc.data();
+    console.log(data);
     const row = document.createElement("tr");
     row.setAttribute("data-id", doc.id);
     row.innerHTML = `
@@ -78,16 +76,18 @@ getDataBtn.addEventListener("click", async () => {
       <td>${data.yearReleased}</td>
       <td>${data.unitsSold}</td>
       <td>
-      <a href=".edit"><button class="edit" data-id="${doc.id}" style="width: 40%; height: 30px; background: yellow; color: white">Edit</button></a>
+        <button class="edit" data-id="${doc.id}" style="width: 40%; height: 30px; background: yellow; color: white">Edit</button>
         <button class="delete" data-id="${doc.id}" style="width: 40%; height: 30px; background: red; color: white">Delete</button>
       </td>
     `;
     tableBody.appendChild(row);
     });
-  });
+  };
+
+  fetchDataAndDisplay();
 
       // Deleting data from the database
-      const tableBody = document.getElementById("tbody1");
+      //const tableBody = document.getElementById("tbody1");
       tableBody.addEventListener("click", async (event) => {
       if (event.target.classList.contains("delete")) {
       const id = event.target.getAttribute("data-id");
@@ -108,7 +108,7 @@ getDataBtn.addEventListener("click", async () => {
             await deleteDoc(doc(db, "gamingConsoles", id));
             console.log("Document successfully deleted!");
             alert("Entry Deleted!");
-            getDataBtn.click(); // refresh the table after deleting a document
+            location.reload(); // refresh the table after deleting a document
           } catch (error) {
             console.error("Error removing document: ", error);
           }
@@ -192,7 +192,15 @@ getDataBtn.addEventListener("click", async () => {
         // Create the chart using the retrieved data
         var chart = new JSC.Chart("line", {
           debug: true, // Set debug option to true to view full error messages
-          type: "line",
+          type: "area",
+          title: { 
+            position: 'center', 
+            label: { 
+              text: 'Number of Consoles Released in a Year', 
+              style_fontSize: 25,
+              style_padding: "20px",
+            } 
+          },
           series: [{
             points: gamingConsolesData
           }]
@@ -231,9 +239,17 @@ getDataBtn.addEventListener("click", async () => {
         }
       
         // Create the chart using the retrieved data
-        var chart = new JSC.Chart("pie", {
+        var chart = new JSC.Chart("area", {
           debug: true, // Set debug option to true to view full error messages
-          type: "pie",
+          type: "line",
+          title: { 
+            position: 'center', 
+            label: { 
+              text: 'Count of Each Console Type', 
+              style_fontSize: 25,
+              style_padding: "20px",
+            } 
+          },
           series: [{
             points: gamingConsolesData
           }]
@@ -271,6 +287,14 @@ getDataBtn.addEventListener("click", async () => {
           var chart = new JSC.Chart("chartDiv", {
             debug: true, // Set debug option to true to view full error messages
             type: "column",
+            title: { 
+              position: 'center', 
+              label: { 
+                text: 'Number of Units Sold per Company', 
+                style_fontSize: 25,
+                style_padding: "20px",
+              } 
+            },
             series: [
               {
                 points: gamingConsolesData,
