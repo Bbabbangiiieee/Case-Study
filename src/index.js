@@ -87,7 +87,6 @@ async function fetchDataAndDisplay() {
   fetchDataAndDisplay();
 
       // Deleting data from the database
-      //const tableBody = document.getElementById("tbody1");
       tableBody.addEventListener("click", async (event) => {
       if (event.target.classList.contains("delete")) {
       const id = event.target.getAttribute("data-id");
@@ -95,6 +94,7 @@ async function fetchDataAndDisplay() {
       await deleteDoc(doc(db, "gamingConsoles", id));
       console.log("Document successfully deleted!");
       alert("Entry Deleted!");
+      location.reload();
       } catch (error) {
       console.error("Error removing document: ", error);
       }
