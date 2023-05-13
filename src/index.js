@@ -52,7 +52,9 @@ saveBtn.addEventListener("click", async () => {
   }
 });
 
-// Viewing data stored in the database
+
+
+// Viewing data stored in the database for managing consoles
 const getDataBtn = document.querySelector(".get-data");
 getDataBtn.addEventListener("click", async () => {
   const q = collection(db, "gamingConsoles");
@@ -76,13 +78,13 @@ getDataBtn.addEventListener("click", async () => {
       <td>${data.yearReleased}</td>
       <td>${data.unitsSold}</td>
       <td>
-      <button class="edit" data-id="${doc.id}">Edit</button>
-      <button class="delete" data-id="${doc.id}">Delete</button>
+      <a href=".edit"><button class="edit" data-id="${doc.id}" style="width: 40%; height: 30px; background: yellow; color: white">Edit</button></a>
+        <button class="delete" data-id="${doc.id}" style="width: 40%; height: 30px; background: red; color: white">Delete</button>
       </td>
-      `;
-      tableBody.appendChild(row);
-      });
-      });
+    `;
+    tableBody.appendChild(row);
+    });
+  });
 
       // Deleting data from the database
       const tableBody = document.getElementById("tbody1");
@@ -278,6 +280,7 @@ getDataBtn.addEventListener("click", async () => {
         }).catch(function (error) {
           console.error("Error retrieving data from Firestore: ", error);
         });
+        
         
         
       

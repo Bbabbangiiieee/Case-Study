@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Games Consoles</title>
+        <!-- ======= Styles ====== -->
+        <link rel="stylesheet" href="assets/css/style.css">
+        <script defer src="./bundle.js"></script>
+    </head>
+
+    <body>
+        <!-- =============== Navigation ================ -->
+        <div class="container">
+            <div class="navigation">
+                <ul>
+                    <li>
+                        <a href="#">
+                            <span class="icon">
+                                <ion-icon name="game-controller"></ion-icon>
+                            </span>
+                            <strong><span class="title">Game Consoles</span></strong>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="dashboard.html">
+                            <span class="icon">
+                                <ion-icon name="home-outline"></ion-icon>
+                            </span>
+                            <span class="title">Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="add.html">
+                            <span class="icon">
+                                <ion-icon name="add-circle-outline"></ion-icon>
+                            </span>
+                            <span class="title">Add Console</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="data.html">
+                            <span class="icon">
+                                <ion-icon name="server-outline"></ion-icon>
+                            </span>
+                            <span class="title">Manage Consoles</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="analytics.html">
+                            <span class="icon">
+                                <ion-icon name="stats-chart-outline"></ion-icon>
+                            </span>
+                            <span class="title">Analytics</span>
+                        </a>
+                    </li>
+    
+                    <li>
+                        <a href="index.html">
+                            <span class="icon">
+                                <ion-icon name="log-out-outline"></ion-icon>
+                            </span>
+                            <span class="title">Sign Out</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- ========================= Main ==================== -->
+            <div class="main">
+                <div class="topbar">
+                    <div class="toggle">
+                        <ion-icon name="menu-outline"></ion-icon>
+                    </div>
+                </div>
+            
+             <!-- ================ Add Game Console ================= -->
+             <div class="chartsBx">
+                <div class="cardHeader">
+                    <h2>Add Game Console</h2>
+                    <br>
+                    <div class="chart">
+                    <form action="" class="console-form">
+                        <div class="form-group">
+                            <input type="text" id="name" placeholder="Name" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="type" placeholder="Type" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="company" placeholder="Company" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="int" id="year" placeholder="Year" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="int" id="sold" placeholder="Sold" class="form-control">
+                        </div>
+                     
+                        <button type="submit" class="save contact__button btn">Save</button>
+                    </form>
+                </div>
+            </div>
+  
+            
+        <!-- Add a modal for success and error messages -->
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p id="modal-message"></p>
+            </div>
+        </div>
+
+
+        
+        <!-- ======= Scripts ====== -->
+        <script src="assets/js/main.js"></script>
+
+        <script>
+            const saveButton = document.querySelector('.save');
+            const modal = document.getElementById('modal');
+            const closeModal = document.querySelector('.close');
+            const modalMessage = document.getElementById('modal-message');
+    
+            saveButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Add logic to save the game console
+                const success = saveGameConsole();
+    
+                if (success) {
+                    modalMessage.textContent = 'Game console saved successfully!';
+                    modal.style.display = 'block';
+                } else {
+                    modalMessage.textContent = 'Failed to save game console!';
+                    modal.style.display = 'block';
+                }
+            });
+    
+            closeModal.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+    
+            window.onclick = (event) => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            }
+    
+            function saveGameConsole() {
+                // Add your logic to save the game console
+                // Return true if successful, false otherwise
+                return true;
+            }
+        </script>
+
+        <!-- ====== ionicons ======= -->
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    </body>
+</html>
