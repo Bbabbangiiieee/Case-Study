@@ -1,15 +1,14 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { collection, query, orderBy, where, getDocs } from "firebase/firestore";
 import {
   getFirestore,
-  collection,
   addDoc,
-  getDocs,
   getDoc,
   deleteDoc,
   updateDoc,
-  doc
+  doc,
 } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
@@ -56,52 +55,42 @@ saveBtn.addEventListener("click", async () => {
 
 // Viewing data stored in the database for managing consoles
 const tableBody = document.getElementById("tbody1");
-//const getDataBtn = document.querySelector(".get-data");
+
 async function fetchDataAndDisplay() {
   const querySnapshot = await getDocs(collection(db, "gamingConsoles"));
+  const documents = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+  // Sort the documents array based on the desired field
+  documents.sort((a, b) => a.consoleName.localeCompare(b.consoleName));
 
   // Clear any existing data from the table
   tableBody.innerHTML = "";
 
   // Loop through the gamingConsoles and add each one to the table
-  querySnapshot.forEach((doc) => {
-    const data = doc.data();
-    console.log(data);
+  documents.forEach((doc) => {
+    const { id, consoleName, consoleType, company, yearReleased, unitsSold } = doc;
     const row = document.createElement("tr");
-    row.setAttribute("data-id", doc.id);
+    row.setAttribute("data-id", id);
     row.innerHTML = `
-      <td>${data.consoleName}</td>
-      <td>${data.consoleType}</td>
-      <td>${data.company}</td>
-      <td>${data.yearReleased}</td>
-      <td>${data.unitsSold}</td>
+      <td>${consoleName}</td>
+      <td>${consoleType}</td>
+      <td>${company}</td>
+      <td>${yearReleased}</td>
+      <td>${unitsSold}</td>
       <td>
-        <button class="edit" data-id="${doc.id}" style="width: 40%; height: 30px; background: yellow; color: white">Edit</button>
-        <button class="delete" data-id="${doc.id}" style="width: 40%; height: 30px; background: red; color: white">Delete</button>
+        <button class="edit" data-id="${id}" style="width: 40%; height: 30px; background: skyblue; color: white">Edit</button>
+        <button class="delete" data-id="${id}" style="width: 40%; height: 30px; background: red; color: white">Delete</button>
       </td>
     `;
     tableBody.appendChild(row);
-    });
-  };
+  });
+}
 
-  fetchDataAndDisplay();
+fetchDataAndDisplay();
+
 
       // Deleting data from the database
-      tableBody.addEventListener("click", async (event) => {
-      if (event.target.classList.contains("delete")) {
-      const id = event.target.getAttribute("data-id");
-      try {
-      await deleteDoc(doc(db, "gamingConsoles", id));
-      console.log("Document successfully deleted!");
-      alert("Entry Deleted!");
-      location.reload();
-      } catch (error) {
-      console.error("Error removing document: ", error);
-      }
-      }
-      });
-
-      tableBody.addEventListener("click", async (event) => {
+        tableBody.addEventListener("click", async (event) => {
         if (event.target.classList.contains("delete")) {
           const id = event.target.getAttribute("data-id");
           try {
